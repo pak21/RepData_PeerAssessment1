@@ -158,7 +158,7 @@ qplot(imputedStepsByDay$steps, geom=&quot;histogram&quot;, xlab=&quot;Steps&quot
 <p>Implementation note: the <code>weekdays</code> function is a <em>really bad</em> idea to use here, whatever the notes may say - the biggest problem is that it’s locale dependent, so you get different values if you’re in the UK or if you’re in France. It’s <em>much</em> better to use the <code>POSIXlt</code> type instead, so I’m doing that.</p>
 <pre class="r"><code>stepsByIntervalAndDayType &lt;-
   imputedSteps %&gt;%
-  mutate(dayType = ifelse(as.POSIXlt(date)$wday == 0 | as.POSIXlt(date)$wday == 6, &quot;weekend&quot;, &quot;weekday&quot;)) %&gt;%
+  mutate(dayType = ifelse(as.POSIXlt(date)$wday %in% c(0, 6), &quot;weekend&quot;, &quot;weekday&quot;)) %&gt;%
   group_by(dayType, interval) %&gt;%
   summarise(steps = mean(steps))
 qplot(data = stepsByIntervalAndDayType, x = interval, y = steps, geom = &quot;line&quot;,

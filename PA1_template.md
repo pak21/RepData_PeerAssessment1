@@ -202,7 +202,7 @@ Implementation note: the `weekdays` function is a *really bad* idea to use here,
 ```r
 stepsByIntervalAndDayType <-
   imputedSteps %>%
-  mutate(dayType = ifelse(as.POSIXlt(date)$wday == 0 | as.POSIXlt(date)$wday == 6, "weekend", "weekday")) %>%
+  mutate(dayType = ifelse(as.POSIXlt(date)$wday %in% c(0, 6), "weekend", "weekday")) %>%
   group_by(dayType, interval) %>%
   summarise(steps = mean(steps))
 qplot(data = stepsByIntervalAndDayType, x = interval, y = steps, geom = "line",

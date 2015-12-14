@@ -47,6 +47,8 @@ steps <- fread("activity.csv") %>%
   mutate(interval = 60 * (interval %/% 100) + interval %% 100)
 ```
 
+Note that this transformation on the `interval` column means that the graphs here (in particular that in the weekdays/weekend section) have a quantative difference from that presented in the example as they don't have the "gaps" seen in the example - the gaps in the example are caused by the jump from (e.g.) 855 to 900, whereas my data simply goes from 535 to 540 at that point. I'd strongly argue that my graphs are more correct than the example graphs, as it makes little sense to plot a line graph where those gaps don't have any physical meaning.
+
 ## What is mean total number of steps taken per day?
 
 Group the data by day and sum the number of steps:

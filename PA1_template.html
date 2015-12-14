@@ -96,6 +96,7 @@ library(dplyr)</code></pre>
 <pre class="r"><code>steps &lt;- fread(&quot;activity.csv&quot;) %&gt;%
   mutate(date = as.POSIXct(date)) %&gt;%
   mutate(interval = 60 * (interval %/% 100) + interval %% 100)</code></pre>
+<p>Note that this transformation on the <code>interval</code> column means that the graphs here (in particular that in the weekdays/weekend section) have a quantative difference from that presented in the example as they don’t have the “gaps” seen in the example - the gaps in the example are caused by the jump from (e.g.) 855 to 900, whereas my data simply goes from 535 to 540 at that point. I’d strongly argue that my graphs are more correct than the example graphs, as it makes little sense to plot a line graph where those gaps don’t have any physical meaning.</p>
 </div>
 <div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
 <h2>What is mean total number of steps taken per day?</h2>

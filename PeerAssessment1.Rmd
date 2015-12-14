@@ -1,0 +1,57 @@
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
+
+## Prerequisites
+
+This assessment makes use of the [data.table](https://cran.r-project.org/web/packages/data.table/index.html) and [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html) and [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) packages. Ensure they are installed (via `install.packages(c("data.table", "dplyr", "ggplot2"))`) before running any of the code here. data.table is probably overkill for the small data set we're looking at here, but it's invaluable for large data sets and I like to have a consistent set of tools to work with.
+
+```{r}
+library(data.table)
+library(dplyr)
+library(ggplot2)
+```
+
+We also assume that the data has already been unzipped and is available in the working directory as `activity.csv`.
+
+## Loading and preprocessing the data
+
+Load in the data; we perform two bits of preprocessing along the way:
+
+1. Changing the `date` column into an actual date as we go
+2. Changing the `interval` column into a simple number of minutes since midnight, rather than the original HHMM format. (`%/%` is the integer division operator and `%%` is the modulus operator)
+
+```{r}
+steps <- fread("activity.csv") %>%
+  mutate(date = as.POSIXct(date)) %>%
+  mutate(interval = 60 * (interval %/% 100) + interval %% 60)
+```
+
+## What is mean total number of steps taken per day?
+
+Group the data by day and sum the number of steps:
+
+```{r}
+stepsByDay <- steps %>% group_by(date) %>% summarise(steps = sum(steps))
+qplot(stepsByDay$steps, geom="histogram", xlab="Steps", ylab="Count")
+```
+
+And calculate the mean and median, ignoring missing values:
+
+```{r}
+mean(stepsByDay$steps, na.rm = TRUE)
+median(stepsByDay$steps, na.rm = TRUE)
+```
+
+## What is the average daily activity pattern?
+
+
+
+## Imputing missing values
+
+
+
+## Are there differences in activity patterns between weekdays and weekends?

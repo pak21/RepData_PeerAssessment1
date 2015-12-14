@@ -118,7 +118,8 @@ stepsByIntervalAndDayType <-
   mutate(dayType = ifelse(as.POSIXlt(date)$wday == 0 | as.POSIXlt(date)$wday == 6, "weekend", "weekday")) %>%
   group_by(dayType, interval) %>%
   summarise(steps = mean(steps))
-qplot(data = stepsByIntervalAndDayType, x = interval, y = steps, geom = "line") +
+qplot(data = stepsByIntervalAndDayType, x = interval, y = steps, geom = "line",
+  xlab = "Minutes since midnight", ylab = "Mean number of steps") +
   facet_grid(dayType ~ .)
 ```
 

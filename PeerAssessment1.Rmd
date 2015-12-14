@@ -48,7 +48,24 @@ median(stepsByDay$steps, na.rm = TRUE)
 
 ## What is the average daily activity pattern?
 
+Group the data by 5 minute interval and calculate the mean number of steps, again ignoring missing values:
 
+```{r}
+stepsByInterval <- steps %>% group_by(interval) %>%
+  summarise(steps = mean(steps, na.rm = TRUE))
+qplot(stepsByInterval$interval, stepsByInterval$steps, geom = "line",
+  xlab = "Minutes since midnight", ylab = "Mean number of steps")
+```
+
+Find the row which contains the highest mean number of steps, and take the interval. This is the number of minutes since midnight, so convert it back into hours and minutes (again using the integer division and modulus operators).
+
+```{r}
+maxSteps <- (stepsByInterval %>% filter(steps == max(steps)))$interval
+maxStepsHours <- maxSteps %/% 60
+maxStepsMinutes <- maxSteps %% 60
+```
+
+The five minute interval which contains the highest mean number of steps is that starting at `r maxStepsHours`:`r maxStepsMinutes`.
 
 ## Imputing missing values
 
